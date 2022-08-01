@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-cookie/es6/useCookies.js b/node_modules/react-cookie/es6/useCookies.js
+index a1c0695..496a22b 100644
+--- a/node_modules/react-cookie/es6/useCookies.js
++++ b/node_modules/react-cookie/es6/useCookies.js
+@@ -13,9 +13,9 @@ export default function useCookies(dependencies) {
+         useLayoutEffect(function () {
+             function onChange() {
+                 var newCookies = cookies.getAll();
+-                if (shouldUpdate(dependencies || null, newCookies, previousCookiesRef.current)) {
++                // if (shouldUpdate(dependencies || null, newCookies, previousCookiesRef.current)) {
+                     setCookies(newCookies);
+-                }
++                //}
+                 previousCookiesRef.current = newCookies;
+             }
+             cookies.addChangeListener(onChange);
