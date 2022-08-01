@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import About from "./components/about";
 import Contact from "./components/contact";
 import Navbar from "./components/navbar";
@@ -38,6 +38,17 @@ export default function App() {
       removeCookie(name);
   }
 
+  const [openModal, setOpenModal] = React.useState(false);
+
+  useEffect(() => {
+    if (openModal) {
+        blockScroll();
+    } else {
+        allowScroll();
+    }
+    // eslint-disable-next-line
+}, [openModal]);
+
   return (
     <main className="text-gray-400 bg-gray-900 body-font zeroRightClassName">
       <Navbar toggle={toggle} cookies={cookies}/>
@@ -46,8 +57,8 @@ export default function App() {
       <Timeline cookies={cookies} />
       <Projects cookies={cookies} />
       <Skills cookies={cookies} />
-      <Contact cookies={cookies} />
-      <Footer cookies={cookies} functionSetCookie={functionSetCookie} functionRemoveCookie={functionRemoveCookie} />
+      <Contact cookies={cookies} setOpenModal={setOpenModal} />
+      <Footer cookies={cookies} functionSetCookie={functionSetCookie} functionRemoveCookie={functionRemoveCookie} setOpenModal={setOpenModal}/>
       <div id="scrollArrowUp">
         <ScrollToTop duration={500} easing="linear" showUnder={200}>
           <FaArrowCircleUp onClick={() => {

@@ -5,7 +5,6 @@ import PrivacyInfo from './privacy';
 import moment from 'moment';
 import ReactGA from "react-ga4";
 import { Link } from "react-scroll";
-import useScrollBlock from "./useScrollBlock";
 
 export const FooterContainer = styled.footer`
     background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
@@ -164,9 +163,7 @@ export const Email = styled.a`
 
 
 
-export default function Footer ({cookies, functionSetCookie, functionRemoveCookie}) {
-
-    const [blockScroll, allowScroll] = useScrollBlock();
+export default function Footer ({cookies, functionSetCookie, functionRemoveCookie, setOpenModal}) {
 
     const [checkedAnalytics, setCheckedAnalytics] = React.useState(cookies.analyticsCookie ? true : false);
 
@@ -175,8 +172,6 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
     const [showBannerCookie, setShowBannerCookie] = React.useState(cookies.necessaryCookie ? "none" : "block");
 
     const [opacityBannerCookie, setOpacityBannerCookie] = React.useState(cookies.necessaryCookie ? 0 : 1);
-    
-    const [openModal, setOpenModal] = React.useState(false);
   
     const handleChangeAnalytics = () => {
       setCheckedAnalytics(!checkedAnalytics);
@@ -192,15 +187,6 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
         }
         // eslint-disable-next-line
     }, [showBannerCookie]);
-
-    useEffect(() => {
-        if (openModal) {
-            blockScroll();
-        } else {
-            allowScroll();
-        }
-        // eslint-disable-next-line
-    }, [openModal]);
 
     useEffect(() => {
         if (cookies.analyticsCookie) {
@@ -464,8 +450,9 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                     <div className='bannerLeftColumn'>
                         <div className="text-gray-300">
                             Utilizziamo i cookie per migliorare l'esperienza dell'utente e analizzare il traffico del sito. Per ulteriori informazioni si prega di leggere la nostra{" "}
-                            <a href="#0" 
-                                onClick={() => {
+                            <a href="#" 
+                                onClick={(e) => {
+                                    e.preventDefault();
                                     setOpenModal(true);
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
@@ -475,7 +462,7 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                     }
                                 }} 
                                 data-modal-toggle="defaultModal" 
-                                className="hover:underline text-blue-500"
+                                className="hover:text-gray-400 text-gray-300"
                             >privacy policy.</a><br />
                             Puoi decidere quali cookie vengono utilizzati selezionando le rispettive opzioni di seguito:
                         </div>

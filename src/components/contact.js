@@ -2,12 +2,10 @@ import React, {useRef, useEffect} from "react";
 import { send } from 'emailjs-com';
 import ReactGA from "react-ga4";
 import PropagateLoader from "react-spinners/PropagateLoader";
+import PrivacyInfo from './privacy';
+import { useForm } from 'react-hook-form';
 
-export default function Contact({cookies}) {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [message, setMessage] = React.useState("");
-  const [privacy, setPrivacy] = React.useState(false);
+export default function Contact({cookies, setOpenModal}) {
   const [errorNameOpen, setErrorNameOpen] = React.useState(false);
   const [errorEmailOpen, setErrorEmailOpen] = React.useState(false);
   const [errorMessageOpen, setErrorMessageOpen] = React.useState(false);
@@ -42,65 +40,80 @@ export default function Contact({cookies}) {
     // eslint-disable-next-line
   }, [cookies]);
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {},
+  } = useForm();
 
-  function handleSubmit(e) {
+
+  function onSubmit(data) {
     setLoading(true);
-    e.preventDefault();
-    if (name === "") {
+    var error = false;
+    if (data.name === "") {
       setErrorNameOpen(true);
       setLoading(false);
-      return null;
+      if (!error) {
+        error = true;
+      }
     }
-    if (email === "") {
-      console.log("Ciao")
+    if (data.email === "") {
       setErrorEmailOpen(true);
       setLoading(false);
-      return null;
+      if (!error) {
+        error = true;
+      }
     }
-    if (message === "") {
+    if (data.message === "") {
       setErrorMessageOpen(true);
       setLoading(false);
-      return null;
+      if (!error) {
+        error = true;
+      }
     }
-    if (privacy === false){
+    if (!data.privacy){
       setErrorPrivacyOpen(true);
       setLoading(false);
-      return null;
+      if (!error) {
+        error = true;
+      }
     }
-    if (cookies.analyticsCookie){
-      ReactGA.event({
-        category: "contactForm",
-        action: "Invia Mex"
+    if (!error) {
+      if (cookies.analyticsCookie){
+        ReactGA.event({
+          category: "contactForm",
+          action: "Invia Mex"
+        });
+      }
+      send(
+        process.env.REACT_APP_EMAILJS_SERVICE,
+        process.env.REACT_APP_EMAILJS_TEMPLATE,
+        {user_name: data.name, user_email: data.email, message: data.message},
+        process.env.REACT_APP_EMAILJS_USER
+      )
+        .then(() => {
+          reset({name: '', email: '', message: '', privacy: false});
+          setErrorNameOpen(false);
+          setErrorEmailOpen(false);
+          setErrorMessageOpen(false);
+          setErrorPrivacyOpen(false);
+          setLoading(false);
+          setMessageSent(true);
+          setSeeMessage(true);
+          setTimeout(() => {
+            setSeeMessage(false);
+          }, 3000);
+        })
+        .catch(() => {
+          setLoading(false);
+          setMessageSent(false);
+          setSeeMessage(true);
+          setTimeout(() => {
+            setSeeMessage(false);
+          }, 3000);
       });
     }
-    send(
-      process.env.REACT_APP_EMAILJS_SERVICE,
-      process.env.REACT_APP_EMAILJS_TEMPLATE,
-      {user_name: name, user_email: email, message: message},
-      process.env.REACT_APP_EMAILJS_USER
-    )
-      .then((response) => {
-        console.log('SUCCESS!', response.status, response.text);
-        setName("");
-        setEmail("");
-        setMessage("");
-        document.getElementById("messageForm").reset();
-        setLoading(false);
-        setMessageSent(true);
-        setSeeMessage(true);
-        setTimeout(() => {
-          setSeeMessage(false);
-        }, 3000);
-      })
-      .catch((err) => {
-        console.log('FAILED...', err);
-        setLoading(false);
-        setMessageSent(false);
-        setSeeMessage(true);
-        setTimeout(() => {
-          setSeeMessage(false);
-        }, 3000);
-    });
   }
 
   return (
@@ -124,7 +137,7 @@ export default function Contact({cookies}) {
           id="messageForm"
           name="contact"
           data-netlify="true"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           style={{paddingTop: "5rem"}}
           className="lg:w-1/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
           <h2 style={{paddingBottom: "20px"}} className="text-white sm:text-4xl text-3xl mb-1 font-medium title-font">
@@ -135,6 +148,7 @@ export default function Contact({cookies}) {
               Nome*
             </label>
             <input
+              {...register("name")}
               disabled={loading}
               type="text"
               id="name"
@@ -150,7 +164,7 @@ export default function Contact({cookies}) {
                     "w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors"
                   )
               }
-              onChange={(e) => {setName(e.target.value); setErrorNameOpen(false)}}
+              onChange={() => {setErrorNameOpen(false)}}
             />
             <p className="leading-7 text-red-500" style={{visibility: errorNameOpen === true ? "visible" : "hidden", marginBottom: "5px"}}> Il campo nome è obbligatorio! </p>
           </div>
@@ -159,6 +173,7 @@ export default function Contact({cookies}) {
               Email*
             </label>
             <input
+            {...register("email")}
               disabled={loading}
               type="email"
               id="email"
@@ -174,7 +189,7 @@ export default function Contact({cookies}) {
                     "w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors"
                   )
               }
-              onChange={(e) => {setEmail(e.target.value); setErrorEmailOpen(false)}}
+              onChange={() => {setErrorEmailOpen(false)}}
             />
             <p className="leading-7 text-red-500" style={{visibility: errorEmailOpen === true ? "visible" : "hidden", marginBottom: "5px"}}> Il campo email è obbligatorio! </p>
           </div>
@@ -185,6 +200,7 @@ export default function Contact({cookies}) {
               Messaggio*
             </label>
             <textarea
+              {...register("message")}
               disabled={loading}
               id="message"
               name="message"
@@ -199,33 +215,47 @@ export default function Contact({cookies}) {
                     "w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors"
                   )
               }
-              onChange={(e) => {setMessage(e.target.value); setErrorMessageOpen(false)}}
+              onChange={() => {setErrorMessageOpen(false)}}
             />
             <p className="leading-7 text-red-500" style={{visibility: errorMessageOpen === true ? "visible" : "hidden", marginBottom: "5px"}}> Il campo messaggio è obbligatorio! </p>
           </div>
           <div className="relative">
             <input
+              {...register("privacy")}
               disabled={loading}
               type="checkbox"
               id="privacy"
-              name="privacy"
-              value="privacy"
               className={
                 loading === true ? 
-                  "opacity-50 cursor-not-allowed" 
+                  "w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600 opacity-50 cursor-not-allowed" 
                 : 
                   (errorPrivacyOpen === true ? 
-                    "border-red-400 bg-red-100 text-red-900"
+                    "w-4 h-4 text-red-900 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-red-100 border-red-400"
                   :
-                    null
+                    "w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
                   )
               }
               style={{borderRadius: "4px", marginBottom: "5px"}}
-              onChange={() => {setPrivacy(!privacy); setErrorPrivacyOpen(false)}}
+              onChange={() => {setErrorPrivacyOpen(false)}}
             />
-            <label style={{marginLeft: "10px"}} htmlFor="privacy" className={errorPrivacyOpen === true ? "text-red-500" : null}>
+            <label style={{marginLeft: "10px"}} htmlFor="privacy" className={loading === true ? "opacity-50 cursor-not-allowed": (errorPrivacyOpen === true ? "text-red-500" : null)}>
               Confermo di essere maggiorenne e acconsento al trattamento dei dati personali ai sensi del Regolamento UE nr. 679/2016, GDPR.<br />
-              Confermo di aver letto l'informativa sulla privacy.*<br />
+              Confermo di aver letto <a href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  console.log("CIAOOOOOO")
+                                  setOpenModal(true);
+                                  if (cookies.analyticsCookie){
+                                      ReactGA.event({
+                                      category: "contactForm",
+                                      action: "Privacy"
+                                      });
+                                  }
+                                }}
+                                data-modal-toggle="defaultModal"
+                                style={{pointerEvents: loading ? "none" : "initial"}}
+                                className={loading === true ? "text-gray-400 opacity-50 cursor-not-allowed" : (errorPrivacyOpen === true ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-500")}
+                            >l'informativa sulla privacy</a>.*<br className={loading === true ? "cursor-not-allowed" : null} />
               <span style={{fontSize: "11px"}}>(Potrai cancellarli o chiederne una copia facendo esplicita richiesta a info@lorenzobotto.it)</span>
             </label>
             <p className="leading-7 text-red-500" style={{visibility: errorPrivacyOpen === true ? "visible" : "hidden", marginBottom: "5px"}}> Devi accettare il trattamento dei dati! </p>
@@ -253,6 +283,7 @@ export default function Contact({cookies}) {
           </div>
         </form>
       </div>
+      <PrivacyInfo setOpenModal={setOpenModal}/>
     </section>
   );
 }
