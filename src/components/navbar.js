@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import {FaBars} from 'react-icons/fa';
 import styled from 'styled-components'
-import React from "react";
+import React, {useState, useEffect} from "react";
 import ReactGA from 'react-ga4';
 import { Link } from "react-scroll";
 
@@ -21,6 +21,20 @@ const MobileIcon = styled.div`
 `
 
 export default function Navbar({toggle, cookies}) {
+
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowHeight(window.innerHeight);
+      setWindowWidth(window.innerWidth);
+    }
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <header id="headerSection" className="bg-gray-800 md:sticky top-0 z-10">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row">
@@ -33,11 +47,11 @@ export default function Navbar({toggle, cookies}) {
                   category: "Navbar Link",
                   action: "about"
                 });
+                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                setTimeout(() => {
+                  window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                }, 500);
               }
-              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-              setTimeout(() => {
-                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-              }, 500);
             }
             }
           >
@@ -48,52 +62,52 @@ export default function Navbar({toggle, cookies}) {
           <FaBars style={{verticalAlign: 'unset'}}/>
         </MobileIcon>
         <nav id="nav" className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-700	flex flex-wrap items-center text-base justify-center">
-          <Link to="timeline" smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white" 
+          <Link to="timeline" isDynamic={true} offset={windowHeight >= 818 && windowWidth >= 1280 ? 40 : -60} smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white" 
             onClick={() => {
               if (cookies.analyticsCookie){
                 ReactGA.event({
                   category: "Navbar Link",
                   action: "Timeline"
                 });
+                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                setTimeout(() => {
+                  window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                }, 500);
               }
-              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-              setTimeout(() => {
-                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-              }, 500);
             }
             }
             >
             Scuola e lavoro
           </Link>
-          <Link to="projects" smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white"
+          <Link to="projects" offset={-120} smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white"
             onClick={() => {
               if (cookies.analyticsCookie){
                 ReactGA.event({
                   category: "Navbar Link",
                   action: "progetti"
                 });
+                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                setTimeout(() => {
+                  window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                }, 500);
               }
-              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-              setTimeout(() => {
-                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-              }, 500);
             }
             }
           >
             Progetti sviluppati
           </Link>
-          <Link to="skills" smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white"
+          <Link to="skills" offset={-60} smooth={true} duration={500} style={{transition: "0.2s ease-in-out", cursor: "pointer"}} className="mr-5 hover:text-white"
             onClick={() => {
               if (cookies.analyticsCookie){
                 ReactGA.event({
                   category: "Navbar Link",
                   action: "skills"
                 });
+                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                setTimeout(() => {
+                  window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                }, 500);
               }
-              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-              setTimeout(() => {
-                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-              }, 500);
             }
             }
           >
@@ -101,6 +115,7 @@ export default function Navbar({toggle, cookies}) {
           </Link>
         </nav>
         <Link
+          offset={-60}
           smooth={true} 
           duration={500}
           id="buttonNav"
@@ -113,11 +128,11 @@ export default function Navbar({toggle, cookies}) {
                 category: "Navbar Link",
                 action: "contact"
               });
+              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+              setTimeout(() => {
+                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+              }, 500);
             }
-            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-            setTimeout(() => {
-              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-            }, 500);
           }
           }
         >

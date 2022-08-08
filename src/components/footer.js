@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {FaFacebook, FaInstagram, FaLinkedin, FaGithub} from 'react-icons/fa';
 import styled from 'styled-components';
-import PrivacyInfo from './privacy';
 import moment from 'moment';
 import ReactGA from "react-ga4";
 import { Link } from "react-scroll";
@@ -25,6 +24,9 @@ export const FooterLinksContainer = styled.div`
     @media screen and (max-width: 820px) {
         padding-top: 32px;
     }
+    @media screen and (max-width: 801px) {
+        gap: 20px 20px;
+    }
 `
 
 export const FooterLinksWrapperLeft = styled.div`
@@ -44,6 +46,10 @@ export const FooterLinksWrapperCenter = styled.div`
     @media screen and (max-width: 820px) {
         justify-content: flex-start;
     }
+
+    @media only screen and (max-width: 358px) {
+        flex-basis: 100%;
+    }
 `
 
 export const FooterLinksWrapperRight = styled.div`
@@ -55,8 +61,13 @@ export const FooterLinksWrapperRight = styled.div`
         justify-content: flex-start;
     }
 
-    @media screen and (max-width: 670px) {
+    @media screen and (max-width: 600px) {
+        flex-basis: 100%;
         justify-content: center;
+    }
+
+    @media only screen and (max-width: 358px) {
+        justify-content: flex-start;
     }
 `
 
@@ -161,9 +172,16 @@ export const Email = styled.a`
     }
 `
 
+export const Tel = styled.a`
+    color: white;
+    &:hover {
+        color: gray;
+        transition: 0.3s ease-out;
+    }
+`
 
 
-export default function Footer ({cookies, functionSetCookie, functionRemoveCookie, setOpenModal}) {
+export default function Footer ({cookies, functionSetCookie, functionRemoveCookie, setOpenModal, toggleModal}) {
 
     const [checkedAnalytics, setCheckedAnalytics] = React.useState(cookies.analyticsCookie ? true : false);
 
@@ -190,9 +208,14 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
 
     useEffect(() => {
         if (cookies.analyticsCookie) {
-            ReactGA.initialize(process.env.REACT_APP_GA4_KEY);
+            ReactGA.initialize(process.env.REACT_APP_GA4_KEY, {gaOptions: {cookieExpires: 15555600, cookieDomain: 'none', cookieFlags: 'SameSite=None; Secure', cookieUpdate: false}});
         } else {
-            functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop());
+            if (cookies._ga) {
+                functionRemoveCookie('_ga', {path: '/'});
+            }
+            if (cookies['_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop()]) {
+                functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop(), {path: '/'});
+            }
             window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
         }
         // eslint-disable-next-line
@@ -216,7 +239,24 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                         Numero di telefono
                                     </div>
                                     <div style={{marginBottom: "20px"}}>
-                                        +39 389 9456700
+                                        <Tel href="tel:+393899456700"
+                                            onAuxClick={() => {
+                                                if (cookies.analyticsCookie){
+                                                    ReactGA.event({
+                                                    category: "Footer Links",
+                                                    action: "telefono"
+                                                    });
+                                                }
+                                            }}     
+                                            onClick={() => {
+                                                if (cookies.analyticsCookie){
+                                                    ReactGA.event({
+                                                    category: "Footer Links",
+                                                    action: "telefono"
+                                                    });
+                                                }
+                                            }}
+                                        >+39 389 9456700</Tel>
                                     </div>
                                     <div style={{fontWeight: "bold", marginBottom: "3px"}}>
                                         Email
@@ -254,85 +294,86 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                         category: "Footer Link",
                                         action: "about"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }}
                             >Chi sono</FooterLink>
-                            <FooterLink to="timeline" smooth={true} duration={500} 
+                            <FooterLink to="timeline" offset={40} smooth={true} duration={500} 
                                 onClick={() => {
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Footer Link",
                                         action: "Timeline"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }}
                             >Scuola e lavoro</FooterLink>
-                            <FooterLink to="projects" smooth={true} duration={500}
+                            <FooterLink to="projects" offset={-20} smooth={true} duration={500}
                                 onClick={() => {
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Footer Link",
                                         action: "progetti"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }
                                 }
                             >Progetti sviluppati</FooterLink>
-                            <FooterLink to="skills"   smooth={true} duration={500}
+                            <FooterLink to="skills" offset={40} smooth={true} duration={500}
                                 onClick={() => {
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Footer Link",
                                         action: "skills"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }
                                 }
                             >Skills</FooterLink>
-                            <FooterLink to="contact"  smooth={true} duration={500}
+                            <FooterLink to="contact" offset={40} smooth={true} duration={500}
                                 onClick={() => {
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Footer Link",
                                         action: "contact"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }
-                                }
+                            }
                             >Contattami</FooterLink>
-                            <FooterLink to="" data-modal-toggle="defaultModal"
+                            <FooterLink id="linkOpenModal" to=""
                                 onClick={() => {
                                     setOpenModal(true);
+                                    toggleModal("defaultModal");
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Footer Link",
                                         action: "Privacy"
                                         });
+                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                        setTimeout(() => {
+                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                        }, 500);
                                     }
-                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                    setTimeout(() => {
-                                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                    }, 500);
                                 }
                                 }
                             >Privacy e Cookies Policy</FooterLink>
@@ -438,11 +479,13 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                     </RightsWrap>
                 </Rights>
             </FooterWrap>
-            <PrivacyInfo setOpenModal={setOpenModal} />
             <div className='cookieBannerContainer z-20' style={{display: showBannerCookie, opacity: opacityBannerCookie, transition: 'opacity 0.3s ease', cursor: cookies.necessaryCookie ? "pointer" : "initial"}}
             onClick={(event) => {
                 if (cookies.necessaryCookie && event.target === event.currentTarget) {
-                    setShowBannerCookie("none");
+                    setOpacityBannerCookie(0);
+                    setTimeout(() =>
+                        setShowBannerCookie("none"), 300
+                    )
                 }
             }}            
             >
@@ -454,16 +497,17 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setOpenModal(true);
+                                    toggleModal("defaultModal");
                                     if (cookies.analyticsCookie){
                                         ReactGA.event({
                                         category: "Cookie Banner",
                                         action: "Privacy"
                                         });
                                     }
-                                }} 
-                                data-modal-toggle="defaultModal" 
+                                }}
                                 className="hover:text-gray-400 text-gray-300"
-                            >privacy policy.</a><br />
+                            >privacy policy.</a>
+                            <br />
                             Puoi decidere quali cookie vengono utilizzati selezionando le rispettive opzioni di seguito:
                         </div>
                         <div className="flex items-center mb-2" style={{paddingTop: "10px"}}>
@@ -492,7 +536,7 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                 if (!cookies.analyticsCookie){
                                     functionSetCookie('analyticsCookie', true, {path: '/', expires: dateExpire, sameSite: 'none', secure: true});
                                     setCheckedAnalytics(true);
-                                    ReactGA.initialize(process.env.REACT_APP_GA4_KEY);
+                                    ReactGA.initialize(process.env.REACT_APP_GA4_KEY, {gaOptions: {cookieExpires: 15555600, cookieDomain: 'none', cookieFlags: 'SameSite=None; Secure', cookieUpdate: false}});
                                     window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
                                 }
                                 if (checkedAnalytics === false){
@@ -522,14 +566,14 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                 if (checkedAnalytics) {
                                     if (!cookies.analyticsCookie) {
                                         functionSetCookie('analyticsCookie', true, {path: '/', expires: dateExpire, sameSite: 'none', secure: true});
-                                        ReactGA.initialize(process.env.REACT_APP_GA4_KEY);
+                                        ReactGA.initialize(process.env.REACT_APP_GA4_KEY, {gaOptions: {cookieExpires: 15555600, cookieDomain: 'none', cookieFlags: 'SameSite=None; Secure', cookieUpdate: false}});
                                         window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
                                     }
                                 } else {
                                     if (cookies.analyticsCookie) {
-                                        functionRemoveCookie('analyticsCookie');
-                                        functionRemoveCookie('_ga');
-                                        functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop());
+                                        functionRemoveCookie('analyticsCookie', {path: '/'});
+                                        functionRemoveCookie('_ga', {path: '/'});
+                                        functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop(), {path: '/'});
                                         window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
                                     }
                                 }
@@ -555,9 +599,9 @@ export default function Footer ({cookies, functionSetCookie, functionRemoveCooki
                                     setNecessaryConsent(true);
                                 }
                                 if (cookies.analyticsCookie) {
-                                    functionRemoveCookie('analyticsCookie');
-                                    functionRemoveCookie('_ga');
-                                    functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop());
+                                    functionRemoveCookie('analyticsCookie', {path: '/'});
+                                    functionRemoveCookie('_ga', {path: '/'});
+                                    functionRemoveCookie('_ga_' + process.env.REACT_APP_GA4_KEY.split("-").pop(), {path: '/'});
                                     window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
                                 }
                                 if (checkedAnalytics) {

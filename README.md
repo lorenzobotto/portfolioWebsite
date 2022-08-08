@@ -1,15 +1,15 @@
-# portfolioWebsite
+# portfolioWebsiteOnline
 Sito portfolio personale realizzato in React, con integrazione di Google Analytics 4 ed invio email - 2022.
 
 ## Descrizione
 
-Sito portfolio personale realizzato in React, completamente Responsive, con integrazione di Google Analytics 4 ed invio email con EmailJS.
+Sito portfolio personale realizzato in React, completamente Responsive, con integrazione di Google Analytics 4, invio email con EmailJS e GitHub API.
 
 E' possibile visualizzarlo sul sito: https://lorenzobotto.it.
 
 ## Creazione chiavi API 
 
-Prima di eseguire, è necessario creare delle chiavi API per Google Analytics 4 e Emailjs.
+Prima di eseguire, è necessario creare delle chiavi API per Google Analytics 4, Emailjs, GitHub Access Token.
 
 ### Google Analytics 4
 1. andare sul sito https://analytics.google.com/ e accedere, se necessario;
@@ -37,6 +37,16 @@ Prima di eseguire, è necessario creare delle chiavi API per Google Analytics 4 
 7. modificare il file .env (nella cartella principale del progetto) cambiando la variabile "REACT_APP_EMAILJS_TEMPLATE" con il valore del Template ID precedentemente copiato.
 8. nel menù a sinistra cliccare su Account e copiarsi la Public Key;
 9. modificare il file .env (nella cartella principale del progetto) cambiando la variabile "REACT_APP_EMAILJS_USER" con il valore della Public Key precedentemente copiato.
+
+### GitHub Access Token
+
+1. accedere al proprio account GitHub, nell'angolo in alto a destra fai clic sulla foto del tuo profilo, infine su Settings;
+2. nella barra laterale sinistra, fare clic su Developer settings;
+3. nella barra laterale sinistra, fare clic su Personal access tokens;
+4. cliccare su Generate new token;
+5. inserire un nome per il token, la data di scadenza e selezionare gli scopes e i permessi necessari (nel mio caso solo public_repo);
+6. cliccare su Generate token e copiarsi il Token;
+7. modificare il file .env (nella cartella principale del progetto) cambiando la variabile "REACT_APP_GITHUB_TOKEN" con il valore del Token precedentemente copiato.
 
 Adesso è possibile eseguire con la sicurezza che tutte le API sono funzionanti.
 

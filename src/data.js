@@ -1,37 +1,37 @@
-export const projects = {
-  "progettoProlog" : {
-    name: "progettoProlog",
-    order: 5,
-    link: "https://github.com/lorenzobotto/progettoProlog"
-  },
-  "progettoTaass" : {
+export const projects = [
+  {
     name: "progettoTaass",
     order: 1,
     link: "https://github.com/lorenzobotto/progettoTaass"
   },
-  "progettoMaadb" : {
+  {
     name: "progettoMaadb",
     order: 2,
     link: "https://github.com/lorenzobotto/progettoMaadb"
   },
-  "progettoSoar" : {
+  {
     name: "progettoSoar",
     language: "Soar Cognitive Architecture",
     color: "#d6e6ca",
     order: 3,
     link: "https://github.com/lorenzobotto/progettoSoar"
   },
-  "progettoModSem" : {
+  {
     name: "progettoModSem",
     order: 4,
     link: "https://github.com/lorenzobotto/progettoModSem"
   },
-  "portfolioWebsite" : {
+  {
+    name: "progettoProlog",
+    order: 5,
+    link: "https://github.com/lorenzobotto/progettoProlog"
+  },
+  {
     name: "portfolioWebsite",
     order: 6,
     link: "https://github.com/lorenzobotto/portfolioWebsite"
   }
-};
+];
 
 export const skills = [
   "Programmazione C, Java e Python",

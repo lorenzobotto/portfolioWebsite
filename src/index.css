@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+	scroll-padding-top: 100px;
+}
+
 html, body {
 	max-width: 100%;
     overflow-x: hidden;
 	overflow-y: overlay;
+	-webkit-tap-highlight-color: transparent;
 }
 
 ::-webkit-scrollbar {
@@ -73,10 +78,17 @@ html, body {
 	left: calc(50% - 1px);
 }
 .timeline-item{
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 	width: 100%;
 	position: relative;
 }
+
+@media only screen and (max-width: 767px) {
+	.timeline-item {
+		margin-bottom: 20px;
+	}
+}
+
 .timeline-item:last-child{
 	margin-bottom: 0;
 }
@@ -145,7 +157,7 @@ html, body {
     width: 100%;
     height: 100%;
     z-index: 40;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .cookieBanner {
@@ -188,4 +200,59 @@ html, body {
 
 .filterGray {
 	filter: invert(100%) sepia(63%) saturate(227%) hue-rotate(299deg) brightness(116%) contrast(101%);
+}
+.backdrop {
+	background-color: rgba(0,0,0,0.5);
+}
+
+@media only screen and (min-width: 320px) {
+	#aboutDesc {
+		margin-left: 5px;
+	}
+}
+
+@media only screen and (min-width: 370px) {
+	#aboutDesc {
+		margin-left: 15px;
+	}
+}
+
+@media only screen and (min-width: 430px) {
+	#aboutDesc {
+		margin-left: 20px;
+	}
+}
+
+@media only screen and (min-width: 500px) {
+	#aboutDesc {
+		margin-left: 25px;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	#aboutDesc {
+		margin-left: 0;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	#frameMappa {
+		height: 85%;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	#frameMappa {
+		height: 90%;
+	}
+}
+
+#message {
+	height: 78px;
+}
+
+@media only screen and (max-width: 767px) {
+	#message {
+		height: 120px;
+	}
 }

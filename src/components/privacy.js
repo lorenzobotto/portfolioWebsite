@@ -1,19 +1,31 @@
-export default function PrivacyInfo({setOpenModal}) {
+export default function PrivacyInfo({setOpenModal, toggleModal, openModal}) {
     return (
-        <div id="defaultModal" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0">
-            <div className="relative px-4 w-full max-w-2xl h-full md:h-auto">
-                <div style={{Height: "80vh"}} className="relative rounded-lg shadow bg-gray-700">
+        
+        <div id="defaultModal" aria-hidden="true" style={{opacity: openModal ? "1" : "0"}} className="transition-opacity ease-in-out duration-300 hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center h-modal md:h-full md:inset-0 bg-opacity-50 cursor-pointer"
+            onClick={(event) => {
+                if (!document.getElementById("modal").contains(event.target)) {
+                    setOpenModal(false);
+                    toggleModal("defaultModal");
+                }
+            }}
+        >
+            <div id="modalOverlay" className="relative px-4 w-full max-w-2xl md:h-auto">
+                <div 
+                    id="modal" 
+                    style={{Height: "80vh", cursor: "initial"}} 
+                    className="relative rounded-lg shadow bg-gray-700"
+                >
                     <div className="flex justify-between items-start p-5 rounded-t border-b border-gray-600">
                         <h3 className="text-xl font-semibold  lg:text-2xl text-white">
                             Privacy e Cookies Policy
                         </h3>
-                        <button type="button" onClick={() => {setOpenModal(false);}} className="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white" data-modal-toggle="defaultModal">
+                        <button type="button" onClick={() => {setOpenModal(false);toggleModal("defaultModal");}} className="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>  
                         </button>
                     </div>
                     <div className="p-6 space-y-6 overflow-y-auto text-white" style={{height: "63vh"}}>
                         <h1 className="font-bold lg:text-2xl">INFORMATIVA SULLA PRIVACY</h1>
-                        <h3 style={{marginTop: "10px"}}>Ultimo aggiornamento - 15 Marzo 2022</h3>
+                        <h3 style={{marginTop: "10px"}}>Ultimo aggiornamento - 02 Agosto 2022</h3>
                         <p style={{fontSize: "15px"}}>
                             <strong>Informativa ai sensi dell’art. 13 del Codice della Privacy</strong>
                         </p>
@@ -166,7 +178,7 @@ export default function PrivacyInfo({setOpenModal}) {
                         <div id="privacyContact">
                             <h1 className="font-bold lg:text-xl">Come potete contattarci</h1>
                             <p style={{marginTop: "24px"}}>
-                                Se avete domande, commenti o per qualsiasi informazione su questa informativa, potete inviarci un'email a info@lorenzobotto.it, utilizzare l'apposita sezione per contattarci all'indirizzo <a href='#contact'>https://lorenzobotto.it/#contact</a> oppure via cellulare: +39 3899456700.
+                                Se avete domande, commenti o per qualsiasi informazione su questa informativa, potete inviarci un'email a info@lorenzobotto.it, utilizzare l'apposita sezione "Contattami" oppure via cellulare: +39 3899456700.
                             </p>
                         </div>
                         <h1 className="font-bold lg:text-xl">Informazioni per i bambini</h1>
@@ -182,10 +194,14 @@ export default function PrivacyInfo({setOpenModal}) {
                         </p>
                     </div>                        
                     <div className="flex items-right p-6 space-x-2 rounded-b border-t border-gray-600">
-                        <button onClick={() => {setOpenModal(false);}} data-modal-toggle="defaultModal" type="button" className="focus:ring-4 focus:ring-gray-300 rounded-lg border text-sm font-medium px-5 py-2.5 focus:z-10 bg-gray-700 text-gray-300 border-gray-500 hover:text-white hover:bg-gray-600">Ho capito!</button>
+                        <button id="buttonCloseModal" onClick={() => {
+                            setOpenModal(false);
+                            toggleModal("defaultModal");
+                        }}
+                        type="button" className="focus:ring-4 focus:ring-gray-300 rounded-lg border text-sm font-medium px-5 py-2.5 focus:z-10 bg-gray-700 text-gray-300 border-gray-500 hover:text-white hover:bg-gray-600">Ho capito!</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
     )
 }

@@ -15,6 +15,7 @@ import { useCookies } from 'react-cookie';
 import ScrollToTop from "react-scroll-up";
 import {FaArrowCircleUp} from 'react-icons/fa';
 import ReactGA from "react-ga4";
+import PrivacyInfo from './components/privacy';
 
 export default function App() {
 
@@ -42,12 +43,28 @@ export default function App() {
 
   useEffect(() => {
     if (openModal) {
-        blockScroll();
+        blockScroll();  
     } else {
-        allowScroll();
+        allowScroll();  
     }
     // eslint-disable-next-line
 }, [openModal]);
+
+function toggleModal(modalID) {
+  if (!openModal) {
+    document.getElementById(modalID).classList.toggle("flex");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+    document.getElementById(modalID).classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+  } else {
+    document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+    document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+    setTimeout(() => {
+      document.getElementById(modalID).classList.toggle("flex");
+      document.getElementById(modalID).classList.toggle("hidden");      
+    }, 300);
+  } 
+}
 
   return (
     <main className="text-gray-400 bg-gray-900 body-font zeroRightClassName">
@@ -57,26 +74,31 @@ export default function App() {
       <Timeline cookies={cookies} />
       <Projects cookies={cookies} />
       <Skills cookies={cookies} />
-      <Contact cookies={cookies} setOpenModal={setOpenModal} />
-      <Footer cookies={cookies} functionSetCookie={functionSetCookie} functionRemoveCookie={functionRemoveCookie} setOpenModal={setOpenModal}/>
+      <Contact cookies={cookies} setOpenModal={setOpenModal} toggleModal={toggleModal} />
+      <Footer cookies={cookies} functionSetCookie={functionSetCookie} functionRemoveCookie={functionRemoveCookie} setOpenModal={setOpenModal} toggleModal={toggleModal}/>
       <div id="scrollArrowUp">
         <ScrollToTop duration={500} easing="linear" showUnder={200}>
           <FaArrowCircleUp onClick={() => {
                                             if (cookies.analyticsCookie){
                                               ReactGA.event({
-                                                category: "Button to TopTop",
+                                                category: "Button to Top",
                                                 action: "about"
                                               });
+                                              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                              setTimeout(() => {
+                                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                              }, 500);
                                             }
-                                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                                            setTimeout(() => {
-                                              window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                                            }, 500);
                                           }} 
             size={"50px"} 
           />
         </ScrollToTop>
       </div>
+      <PrivacyInfo setOpenModal={setOpenModal} toggleModal={toggleModal} openModal={openModal}/>
+      <div 
+        className="hidden opacity-60 fixed inset-0 z-40 bg-black bg-opacity-100"
+        id="defaultModal-backdrop"
+      />
     </main>
   );
 }

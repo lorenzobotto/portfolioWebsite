@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {FaTimes} from 'react-icons/fa';
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import ReactGA from 'react-ga4';
+import { Link } from "react-scroll";
 
 const SidebarContainer = styled.aside`
     position: fixed;
@@ -60,7 +61,7 @@ const Logo = styled.div`
     height: 0%;
 `
 
-const SidebarLink = styled.a`
+const SidebarLink = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,6 +78,15 @@ const SidebarLink = styled.a`
         transition: 0.2 ease-in-out;
     }
 `
+
+const NameLink = styled(Link)`
+    font-size: 1.70rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+    cursor: pointer;
+`
+
+const ButtonLink = styled(Link)``
 
 export const SideBtnWrap = styled.div`
     display: flex;
@@ -110,7 +120,7 @@ const Sidebar = ({isOpen, toggle, cookies}) => {
                 <CloseIcon />
             </Icon>
             <Logo>
-                <a href="#about" style={{fontSize: "1.70rem", lineHeight: "1.75rem", fontWeight: "500"}}
+                <NameLink to="about"
                     onClick={() => {
                         toggle();
                         if (cookies.analyticsCookie){
@@ -118,91 +128,95 @@ const Sidebar = ({isOpen, toggle, cookies}) => {
                             category: "Sidebar Link",
                             action: "about"
                           });
-                        }
-                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                        setTimeout(() => {
+                          window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                          setTimeout(() => {
                             window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                        }, 200);
+                          }, 200);
+                        }
                     }
                     }
                 >
                     Lorenzo Botto
-                </a>
+                </NameLink>
             </Logo>     
             <SidebarWrapper>
                 <FirstSidebarMenu>
-                    <SidebarLink href='#timeline'
+                    <SidebarLink to='timeline'
+                        offset={-60}
                         onClick={() => {
                             toggle();
                             if (cookies.analyticsCookie){
-                            ReactGA.event({
-                                category: "Sidebar Link",
-                                action: "Timeline"
-                            });
+                                ReactGA.event({
+                                    category: "Sidebar Link",
+                                    action: "Timeline"
+                                });
+                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                setTimeout(() => {
+                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                }, 200);
                             }
-                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                            setTimeout(() => {
-                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                            }, 200);
                         }
                         }
                     >Scuola e lavoro</SidebarLink>
-                    <SidebarLink href='#projects'
+                    <SidebarLink to='projects'
+                        offset={-120}
                         onClick={() => {
                             toggle();
                             if (cookies.analyticsCookie){
-                            ReactGA.event({
-                                category: "Sidebar Link",
-                                action: "progetti"
-                            });
+                                ReactGA.event({
+                                    category: "Sidebar Link",
+                                    action: "progetti"
+                                });
+                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                setTimeout(() => {
+                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                }, 200);
                             }
-                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                            setTimeout(() => {
-                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                            }, 200);
                         }
                         }
                     >Progetti sviluppati</SidebarLink>
-                    <SidebarLink href='#skills'
+                    <SidebarLink to='skills'
+                        offset={-60}
                         onClick={() => {
                             toggle();
                             if (cookies.analyticsCookie){
-                            ReactGA.event({
-                                category: "Sidebar Link",
-                                action: "skills"
-                            });
+                                ReactGA.event({
+                                    category: "Sidebar Link",
+                                    action: "skills"
+                                });
+                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                                setTimeout(() => {
+                                    window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                                }, 200);
                             }
-                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                            setTimeout(() => {
-                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                            }, 200);
                         }
                         }
                     >Skills</SidebarLink>
                 </FirstSidebarMenu>
                 <SideBtnWrap>
-                <a
-                    style={{transition: "0.2s ease-in-out"}}
-                    href="#contact"
+                <ButtonLink
+                    offset={-60}
+                    style={{transition: "0.2s ease-in-out", cursor: "pointer"}}
+                    to="contact"
                     className="inline-flex items-center text-white bg-green-600 border-0 py-2 px-10 focus:outline-none hover:bg-green-800 rounded text-lg"
                     onClick={() => {
                         toggle();
                         if (cookies.analyticsCookie){
-                        ReactGA.event({
-                            category: "Sidebar Link",
-                            action: "contact"
-                        });
+                            ReactGA.event({
+                                category: "Sidebar Link",
+                                action: "contact"
+                            });
+                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
+                            setTimeout(() => {
+                                window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
+                            }, 200);
                         }
-                        window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = true;
-                        setTimeout(() => {
-                            window['ga-disable-' + process.env.REACT_APP_GA4_KEY] = false;
-                        }, 200);
                     }
                     }
                 >
                     Contattami
                     <ArrowRightIcon style={{textAlign: "center"}} className="inline-flex focus:outline-none w-4 h-4 ml-1" />
-                </a>
+                </ButtonLink>
                 </SideBtnWrap>
             </SidebarWrapper>
         </SidebarContainer>
