@@ -60,10 +60,10 @@ export default function PrivacyInfo({setOpenModal, toggleModal, openModal}) {
                         </p>
                         <h1 className="font-bold lg:text-xl">Informazioni raccolte automaticamente</h1>
                         <p>
-                            <i><strong>In breve:</strong> alcune informazioni - come l'indirizzo IP (Internet Protocol) e/o le caratteristiche del browser e del dispositivo - vengono raccolte automaticamente quando l'utente visita i nostri Servizi.</i>
+                            <i><strong>In breve:</strong> alcune informazioni - come l'indirizzo IP (Internet Protocol) e/o le caratteristiche del browser e del dispositivo - vengono raccolte automaticamente quando l'utente visita i nostri Servizi e accetta i Cookie Analitici.</i>
                         </p>
                         <p>
-                        Raccogliamo automaticamente alcune informazioni quando visiti, utilizzi o navighi nei Servizi (es. Google Analytics). Queste informazioni non rivelano la tua identità specifica (come il tuo nome o le informazioni di contatto) ma possono includere informazioni sul dispositivo e sull'utilizzo, come l'indirizzo IP, le caratteristiche del browser e del dispositivo, il sistema operativo, le preferenze di lingua, gli URL di riferimento, il nome del dispositivo, paese, posizione, informazioni su come e quando utilizzi i nostri Servizi e altre informazioni tecniche. Queste informazioni sono necessarie principalmente per mantenere la sicurezza e il funzionamento dei nostri Servizi e per le nostre finalità interne di analisi e reporting.
+                        Raccogliamo automaticamente alcune informazioni quando visiti, utilizzi o navighi nei Servizi, dopo aver accettato i Cookie Analitici (Google Analytics). Queste informazioni non rivelano la tua identità specifica (come il tuo nome o le informazioni di contatto) ma possono includere informazioni sul dispositivo e sull'utilizzo, come l'indirizzo IP, le caratteristiche del browser e del dispositivo, il sistema operativo, le preferenze di lingua, gli URL di riferimento, il nome del dispositivo, paese, posizione, informazioni su come e quando utilizzi i nostri Servizi e altre informazioni tecniche. Queste informazioni sono necessarie principalmente per mantenere la sicurezza e il funzionamento dei nostri Servizi e per le nostre finalità interne di analisi e reporting.
                         </p>
                         <div>
                             Le informazioni che raccogliamo includono:
@@ -78,7 +78,12 @@ export default function PrivacyInfo({setOpenModal, toggleModal, openModal}) {
                                     <i>Dati sulla posizione.</i>  Raccogliamo dati sulla posizione, come informazioni sulla posizione del dispositivo, che possono essere precisi o imprecisi. La quantità di informazioni raccolte dipende dal tipo e dalle impostazioni del dispositivo utilizzato per accedere ai Servizi. Ad esempio, potremmo utilizzare il GPS e altre tecnologie per raccogliere dati di geolocalizzazione che ci dicano la tua posizione attuale (in base al tuo indirizzo IP). L'utente può scegliere di non consentirci di raccogliere queste informazioni rifiutando l'accesso alle informazioni o disabilitando l'impostazione Posizione sul dispositivo. Tuttavia, se scegli di rinunciare, potresti non essere in grado di utilizzare determinati aspetti dei Servizi.
                                 </li>
                             </ul>
+                            I dati sugli eventi che raccogliamo, dopo aver accettato i Cookie Analitici, tramite Google Analytics vengono conservati per 14 mesi.
                         </div>
+                        <h1 className="font-bold lg:text-xl">Trasferimento dei dati</h1>
+                        <p>
+                        Tutti i dati che raccogliamo NON verranno trasferiti a terzi e/o al di fuori dell'UE.
+                        </p>
                         <h1 className="font-bold lg:text-xl">Cookie Policy</h1>
                         <p>
                         Questo sito utilizza cookies, anche di terze parti, per migliorarne l’esperienza di navigazione, consentire a chi naviga di usufruire di eventuali servizi online e monitorare la navigazione nel sito.
